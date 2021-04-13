@@ -1,0 +1,31 @@
+*{
+    margin: 0px;
+} 
+body {
+    background: black;
+}   
+#game-area{
+    width: 800px;
+    height: 500px;
+    border: solid white 5px;
+}
+#character{
+    position: absolute;
+    left: 385px;
+    top: 450px;
+    width: 50px;
+    z-index: 10;
+}
+@keyframes moveUp {
+    0%{top: 475px;}
+    100%{top: -50px;}
+}
+p{
+    background-color: rgb(30, 30, 71);
+    width: 1px;
+    height: 10px;
+    box-shadow: 0px 0px 3px 2px rgb(156, 156, 156);
+    position: absolute;
+    top: 475px;
+    animation: moveUp linear 500ms;
+}

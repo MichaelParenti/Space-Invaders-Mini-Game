@@ -6,11 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invaders</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="spaceship.png" type="image/x-icon">
 </head>
 <body>
-    <div id="game-area"></div>
-        <img src="spaceship.png" id="character"></img>
-
+    <div id="game-area">
+        <div id="modal">
+            <h1>Game Over</h1><br><br>
+            <button id="btn" onclick="play();">Play Again</button>
+        </div>
+    </div>
+    <div src="spaceship.png" id="character"></div>
+    <div id="line"></div>
     <script src="script.js"></script>
 </body>
 </html>

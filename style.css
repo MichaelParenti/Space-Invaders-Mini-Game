@@ -133,7 +133,7 @@ img{
     outline: none;
     margin: 50px 150px;
 }
-#start{
+#start-1, #start-2, #start-3{
     position: relative;
     background: blue;
     width: 200px;
@@ -142,9 +142,9 @@ img{
     padding:20px;
     border: outset 5px rgb(0, 0, 141);
     outline: none;
-    margin: 50px 150px;
+    margin: 50px 30px;
 }
-#start:active{
+#start-1:active, #start-2:active, #start-3:active{
     position: relative;
     background: blue;
     width: 200px;
@@ -153,7 +153,13 @@ img{
     padding:20px;
     border: inset 5px rgb(0, 0, 141);
     outline: none;
-    margin: 50px 150px;
+    margin: 50px 30px;
+}
+#buttons{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    width: 500px;
 }
 #scoreDiv{
     display: flex;

@@ -1,9 +1,10 @@
-document.addEventListener("DOMContentLoaded", () => {
-
+document.getElementById("start").addEventListener("click", () => {
+document.getElementById("modal-start").remove();
+    //Declarations
     const modal = document.getElementById("modal");
-    modal.remove();
-    const playAgain = document.getElementById("btn");
     
+    let score = 0;
+
     const char = document.getElementById("character");
     var moveBy = 385;
     var charKeyHandler = {
@@ -28,16 +29,19 @@ document.addEventListener("DOMContentLoaded", () => {
         0,0,0,0,0,0,0,0,0,0,0,0,0,0
     ];
 
-    var enemyLeft = 0;
-    var enemy2Left = 0;
-    var enemy3Left = 0;
-    var enemy4Left = 0;
+    var enemyLeft = -60;
+    var enemy2Left = -60;
+    var enemy3Left = -60;
+    var enemy4Left = -60;
 
     var enemyTop = 20;
     var enemyTop2 = 60;
     var enemyTop3 = 100;
     var enemyTop4 = 140;
 
+
+
+    //Create Enemies
     function createEnemies(){
         for(var row=0;row<9;row++){
                 if(enemies[row] === 0){
@@ -84,6 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createEnemies();
 
+
+
+
     //Move Enemies Down
     var moveEnemiesDown = setInterval(() => {
         var elem = document.getElementsByTagName("img");
@@ -91,12 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 elem[i].style.top = elem[i].offsetTop + 30 + "px";
                 if(elem[i].offsetTop + elem[i].offsetHeight > 280) {
                     clearInterval(moveEnemiesDown);
-                    document.body.append(modal);
+                    modal.style.visibility = "visible";
                 }
             }
     }, 3000);
 
 
+
+
+//Move Enemies Back And Forth
 function enemyMoveLeft(){
         var elem = document.getElementsByTagName("img");
             for (var i = 0; i < elem.length; i++) {
@@ -115,22 +125,29 @@ function enemyMoveRight(){
     
 }
 
-// function move() {
+
+
+function move() {
+    var elem = document.getElementsByTagName("img");
     
-//     var elem = document.getElementsByTagName("img");
-//     var i = 0;
+    for (var i = 0; i < elem.length; i++) {
+    
 
-//         if(elem[i].offsetLeft < 11){
-//             enemyMoveRight();
-//         }
-//         if(elem[i].offsetLeft > 754){
-//             enemyMoveLeft();
-//         }
+            if(elem[i].offsetLeft < 10){
+                BackAndForth["MoveOverRight"] = true;
+                BackAndForth["MoveOverLeft"] = false;
+            }
+            if((elem[i].offsetLeft + elem[i].offsetWidth) > 800){
+                BackAndForth["MoveOverRight"] = false;
+                BackAndForth["MoveOverLeft"] = true;
+            }
+    }
+}
+setInterval(move,50);
 
-// }
 
 
-// setInterval(move,50);
+                    
 
 setInterval(() => {
     if(BackAndForth["MoveOverRight"]){
@@ -142,46 +159,12 @@ setInterval(() => {
     }
 },20); 
 
-function enemyMove(){
-    var elem = document.getElementsByTagName("img");
-    var i = 0;
-    if(elem[i].offsetLeft < 100){
-        BackAndForth["MoveOverRight"] = true;
-        BackAndForth["MoveOverLeft"] = false;
-    }
-    if(elem[i].offsetLeft > 754){
-        BackAndForth["MoveOverLeft"] = true;
-        BackAndForth["MoveOverRight"] = false;
-    }
-}
-
-enemyMove();
-
-
-// function move(){
-//     var i = 0;
-//     var elem = document.getElementsByTagName("img");
-//     if (elem[i].offsetLeft != 10){x = true;enemyMoveLeft();}else{x = false;enemyMoveLeft();}
-//     if (elem[i].offsetLeft != 795){x2 = true;enemyMoveRight();}else{x2 = false;enemyMoveRight();}
-// }
-// setInterval(move,50);
 
 
 
 
-
-    // var moveEnemiesOver = setInterval(() => {
-    //     var i = 0;
-    //     var elem = document.getElementsByTagName("img");
-    //     if(elem[i].offsetLeft > 10) {enemyMoveLeft();}
-    // }, 50);
-    // var moveEnemiesOver2 = setInterval(() => {
-    //     var i = 0;
-    //     var elem = document.getElementsByTagName("img");
-    //     if(elem[i].offsetLeft + elem[i].offsetWidth <= 795) {enemyMoveRight();}
-    // }, 50);
-
-
+        //Move Spaceship Back And Forth 
+            //Shooting
             function moveLeft() {
                 moveBy = moveBy - 2;
                 char.style.left = moveBy + "px";
@@ -201,34 +184,41 @@ enemyMove();
                                     bullet.remove();
                                 },500);
         
-    setInterval(function() { 
 
-        var elem = document.getElementsByTagName("img");
-        for (var x = 0; x < elem.length; x++) {
- 
-        var ow = bullet.offsetWidth;
-        var oh = bullet.offsetHeight;
-        var ot = bullet.offsetTop;
-        var ol = bullet.offsetLeft;
+                                //Collision Detection Of Bullets And Scoring
+                                setInterval(function() { 
 
-            var o2w = elem[x].offsetWidth;
-            var o2h = elem[x].offsetHeight;
-            var o2t = elem[x].offsetTop;
-            var o2l = elem[x].offsetLeft;
 
-            if ((ol + ow) > (o2l) &&
-            (ol) < (o2w + o2l) &&
-            (ot) < (o2t + o2h) &&
-            (ot+ oh) > (o2t)){
-                elem[x].remove();
-                bullet.remove();
-            }
-        }
-    },1);
+                                        var elem = document.getElementsByTagName("img");
+                                        for (var x = 0; x < elem.length; x++) {
+                                        
+                                        var ow = bullet.offsetWidth;
+                                        var oh = bullet.offsetHeight;
+                                        var ot = bullet.offsetTop;
+                                        var ol = bullet.offsetLeft;
+                                        
+                                            var o2w = elem[x].offsetWidth;
+                                            var o2h = elem[x].offsetHeight;
+                                            var o2t = elem[x].offsetTop;
+                                            var o2l = elem[x].offsetLeft;
+                                        
+                                            if ((ol + ow) > (o2l) &&
+                                            (ol) < (o2w + o2l) &&
+                                            (ot) < (o2t + o2h) &&
+                                            (ot+ oh) > (o2t)){
+                                                elem[x].remove();
+                                                bullet.remove();
+                                                score = score + 10;
+                                                document.getElementById("score-board").innerHTML = score;
+                                            }
+                                        }
+                                },1);
                     }
                         
             }
 
+
+    //Spaceship Controls
     document.addEventListener("keydown",(e) => {
             charKeyHandler[e.key] = true;
     });
@@ -248,9 +238,35 @@ enemyMove();
 
     setInterval(keyUpdate,1);
 
+    setInterval(stopGame,1);
 
+    setInterval(checkGameOver,1);
                    
+    //Check Game Over
+    function checkGameOver() {
+        if(score == 360){
+            document.getElementById("modal-2").style.visibility = "visible";
+            document.getElementById("score-board-2").innerHTML = score;
+        }
+    }
+
 });
+
+
+    //Stop Gameplay When Game Has Ended
+    function stopGame() {
+        if(document.getElementById("modal").style.visibility == "visible"){
+            var elem = document.getElementsByTagName("img");
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.visibility = "hidden";
+                elem[i].remove();
+            }
+        }
+    }
+    
+
+
+//Play Again
     function play() {
         window.location.reload();
     }

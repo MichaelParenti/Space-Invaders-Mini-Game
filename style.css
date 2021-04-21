@@ -37,7 +37,7 @@ p{
 img{
     position: absolute;
     top: 20px;
-    left: 20px;
+    left: 0px;
     height: 20px;
 }
 #line{
@@ -52,7 +52,9 @@ img{
     position: absolute;
     left: 405px;
     top: 250px;
-    padding: 50px 100px;
+    height: 300px;
+    width: 500px;
+    padding: 50px;
     font-size: 32px;
     background:black;
     border: 5px solid blue;
@@ -60,25 +62,101 @@ img{
     color: white;
     display: flex;
     text-align: center;
-    align-items:center;
+    align-content:space-between;
     justify-content:center;
     flex-direction:column;
     transform: translate(-50%, -50%);
     z-index: 99999999999999999999999999999999;
+    visibility: hidden;
+}
+#modal-2{
+    position: absolute;
+    left: 405px;
+    top: 250px;
+    height: 300px;
+    width: 500px;
+    padding: 50px;
+    font-size: 32px;
+    background:black;
+    border: 5px solid blue;
+    font-family:Arial Black;
+    color: white;
+    display: flex;
+    text-align: center;
+    align-content:space-between;
+    justify-content:center;
+    flex-direction:column;
+    transform: translate(-50%, -50%);
+    z-index: 999999999999999999999999999999999;
+    visibility: hidden;
+}
+#modal-start{
+    position: absolute;
+    left: 405px;
+    top: 250px;
+    height: 300px;
+    width: 500px;
+    padding: 50px;
+    font-size: 18px;
+    background:black;
+    border: 5px solid blue;
+    font-family:Arial Black;
+    color: white;
+    display: flex;
+    text-align: center;
+    align-content:space-between;
+    justify-content:center;
+    flex-direction:column;
+    transform: translate(-50%, -50%);
+    z-index: 999999999999999999999999999999999;
+    visibility: visible;
 }
 #btn{
+    position: relative;
     background: blue;
+    width: 200px;
     color: white;
     font-size: 24px;
     padding:20px;
     border: outset 5px rgb(0, 0, 141);
     outline: none;
+    margin: 50px 150px;
 }
 #btn:active{
+    position: relative;
     background: blue;
+    width: 200px;
     color: white;
     font-size: 24px;
     padding:20px;
     border: inset 5px rgb(0, 0, 141);
     outline: none;
+    margin: 50px 150px;
+}
+#start{
+    position: relative;
+    background: blue;
+    width: 200px;
+    color: white;
+    font-size: 24px;
+    padding:20px;
+    border: outset 5px rgb(0, 0, 141);
+    outline: none;
+    margin: 50px 150px;
+}
+#start:active{
+    position: relative;
+    background: blue;
+    width: 200px;
+    color: white;
+    font-size: 24px;
+    padding:20px;
+    border: inset 5px rgb(0, 0, 141);
+    outline: none;
+    margin: 50px 150px;
+}
+#scoreDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

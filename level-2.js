@@ -3,6 +3,11 @@ document.getElementById("start-2").addEventListener("click", () => {
         //Declarations
         const modal = document.getElementById("modal");
         
+        const block1 = document.getElementById("block-one");
+        const block2 = document.getElementById("block-two");
+        const block3 = document.getElementById("block-three");
+        const block4 = document.getElementById("block-four");
+        
         let score = 0;
     
         const char = document.getElementById("character");
@@ -213,6 +218,95 @@ document.getElementById("start-2").addEventListener("click", () => {
                                                 }
                                             }
                                     },1);
+
+                                    
+                                            //Collision Detection Of Block 1
+                                            setInterval(() => { 
+                                                
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+                                                
+                                                    var o2w = block1.offsetWidth;
+                                                    var o2h = block1.offsetHeight;
+                                                    var o2t = block1.offsetTop;
+                                                    var o2l = block1.offsetLeft;
+                                                
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 2
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block2.offsetWidth;
+                                                    var o2h = block2.offsetHeight;
+                                                    var o2t = block2.offsetTop;
+                                                    var o2l = block2.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 3
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block3.offsetWidth;
+                                                    var o2h = block3.offsetHeight;
+                                                    var o2t = block3.offsetTop;
+                                                    var o2l = block3.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 4
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block4.offsetWidth;
+                                                    var o2h = block4.offsetHeight;
+                                                    var o2t = block4.offsetTop;
+                                                    var o2l = block4.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
                         }
                             
                 }

@@ -3,6 +3,7 @@
 } 
 body {
     background: black;
+    overflow: hidden;
 }   
 #game-area{
     width: 800px;
@@ -202,10 +203,43 @@ img{
     left: 600px;
     z-index: 99;
 }
-#signiture{
+a{
     position: absolute;
     top: 520px;
     left: 400px;
     transform: translate(-50%, -50%);
     color: white;
+    text-decoration: none;
+    outline: none;
+    padding: 5px;
+}
+a:visited{
+    position: absolute;
+    top: 520px;
+    left: 400px;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-decoration: none;
+    outline: none;
+    padding: 5px;
+}
+a:active{
+    position: absolute;
+    top: 520px;
+    left: 400px;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-decoration: none;
+    outline: none;
+    padding: 5px;
+}
+a:hover{
+    position: absolute;
+    top: 520px;
+    left: 400px;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-decoration: none;
+    outline: none;
+    padding: 5px;
 }

@@ -202,3 +202,10 @@ img{
     left: 600px;
     z-index: 99;
 }
+#signiture{
+    position: absolute;
+    top: 520px;
+    left: 400px;
+    transform: translate(-50%, -50%);
+    color: white;
+}

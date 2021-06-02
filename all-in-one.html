@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👾-------------------------</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="spaceship.png" type="image/x-icon">
+</head>
+<body>
+    <div id="game-area">
+
+        <div id="modal">
+            <h1>Game Over</h1><br><br>
+            <div id="scoreDiv">
+                <h3>Score: </h3> &nbsp; <span id="score-board">0</span>
+            </div>
+            <button id="btn" onclick="play();">Play Again</button>
+        </div>
+
+        <div id="modal-2">
+            <h1>You Win</h1><br><br>
+            <div id="scoreDiv">
+                <h3>Score: </h3> &nbsp; <span id="score-board-2">0</span>
+            </div>
+            <button id="btn" onclick="play();">Play Again</button>
+        </div>
+        </div>
+
+        <div id="modal-start">
+            <h1>Space Invaders</h1><br><br>
+            <div id="scoreDiv">
+                <h2>Use the arrow keys to move and the space bar to shoot.</h2>
+            </div>
+            <div id="buttons">
+                <button id="start-1">Level 1</button>
+                <button id="start-2">Level 2</button>
+                <button id="start-3">Level 3</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div src="spaceship.png" id="character"></div>
+
+    <div id="line"></div>
+
+    <div id="blocks">
+        <div id="block-one"></div>
+        <div id="block-two"></div>
+        <div id="block-three"></div>
+        <div id="block-four"></div>
+    </div>
+
+    <a href="https://portfolio1010.000webhostapp.com/code.html"><div id="signiture"><h5>Created By: Michael Parenti</h5></div></a>
+
+    <script>
+document.getElementById("start-1").addEventListener("click", () => {
+document.getElementById("modal-start").remove();
+    //Declarations
+    const modal = document.getElementById("modal");
+
+    const block1 = document.getElementById("block-one");
+    const block2 = document.getElementById("block-two");
+    const block3 = document.getElementById("block-three");
+    const block4 = document.getElementById("block-four");
+    
+    let score = 0;
+
+    const char = document.getElementById("character");
+    var moveBy = 385;
+    var charKeyHandler = {
+        "ArrowLeft": false,
+        "ArrowRight": false,
+    };
+    var BackAndForth = {
+        "MoveOverLeft": false,
+        "MoveOverRight": false,
+    };
+
+    var enemies = [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ];
+    var enemies2 = [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ];
+    var enemies3 = [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ];
+    var enemies4 = [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ];
+
+    var enemyLeft = -60;
+    var enemy2Left = -60;
+    var enemy3Left = -60;
+    var enemy4Left = -60;
+
+    var enemyTop = 20;
+    var enemyTop2 = 60;
+    var enemyTop3 = 100;
+    var enemyTop4 = 140;
+
+
+
+    //Create Enemies
+    function createEnemies(){
+        for(var row=0;row<9;row++){
+                if(enemies[row] === 0){
+                    var enemy = document.createElement("img");
+                    enemy.src = "alien.gif";
+                    enemyLeft = enemyLeft + 60;
+                    enemy.style.left = enemyLeft + "px";
+                    enemy.style.top = enemyTop + "px";
+                    document.body.append(enemy);
+                }
+        }
+        for(var row2=0;row2<9;row2++){
+                if(enemies2[row2] === 0){
+                    var enemy2 = document.createElement("img");
+                    enemy2.src = "alien.gif";
+                    enemy2Left = enemy2Left + 60;
+                    enemy2.style.left = enemy2Left + "px";
+                    enemy2.style.top = enemyTop2 + "px";
+                    document.body.append(enemy2);
+                }
+        }
+        for(var row3=0;row3<9;row3++){
+                if(enemies3[row3] === 0){
+                    var enemy3 = document.createElement("img");
+                    enemy3.src = "alien.gif";
+                    enemy3Left = enemy3Left + 60;
+                    enemy3.style.left = enemy3Left + "px";
+                    enemy3.style.top = enemyTop3 + "px";
+                    document.body.append(enemy3);
+                }
+        }
+        for(var row4=0;row4<9;row4++){
+                if(enemies4[row4] === 0){
+                    var enemy4 = document.createElement("img");
+                    enemy4.src = "alien.gif";
+                    enemy4Left = enemy4Left + 60;
+                    enemy4.style.left = enemy4Left + "px";
+                    enemy4.style.top = enemyTop4 + "px";
+                    document.body.append(enemy4);
+                    
+                }
+        }
+    }
+
+    createEnemies();
+
+
+
+
+    //Move Enemies Down
+    var moveEnemiesDown = setInterval(() => {
+        var elem = document.getElementsByTagName("img");
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.top = elem[i].offsetTop + 30 + "px";
+                if(elem[i].offsetTop + elem[i].offsetHeight > 280) {
+                    clearInterval(moveEnemiesDown);
+                    modal.style.visibility = "visible";
+                }
+            }
+    }, 3000);
+
+
+
+
+//Move Enemies Back And Forth
+function enemyMoveLeft(){
+        var elem = document.getElementsByTagName("img");
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.left = elem[i].offsetLeft - 1 + "px";
+            
+            }
+    
+}
+
+function enemyMoveRight(){
+        var elem = document.getElementsByTagName("img");
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.left = elem[i].offsetLeft + 1 + "px";
+
+            }
+    
+}
+
+
+
+function move() {
+    var elem = document.getElementsByTagName("img");
+    
+    for (var i = 0; i < elem.length; i++) {
+    
+
+            if(elem[i].offsetLeft < 10){
+                BackAndForth["MoveOverRight"] = true;
+                BackAndForth["MoveOverLeft"] = false;
+            }
+            if((elem[i].offsetLeft + elem[i].offsetWidth) > 800){
+                BackAndForth["MoveOverRight"] = false;
+                BackAndForth["MoveOverLeft"] = true;
+            }
+    }
+}
+setInterval(move,50);
+
+
+
+                    
+
+setInterval(() => {
+    if(BackAndForth["MoveOverRight"]){
+        enemyMoveRight();
+    }
+
+    if(BackAndForth["MoveOverLeft"]){
+        enemyMoveLeft();
+    }
+},20); 
+
+
+
+
+
+        //Move Spaceship Back And Forth 
+            //Shooting
+            function moveLeft() {
+                moveBy = moveBy - 2;
+                char.style.left = moveBy + "px";
+            }
+
+            function moveRight() {
+                    moveBy = moveBy + 2;
+                    char.style.left = moveBy + "px";  
+            }
+
+            function shoot(e) {
+                    if(e.key == " "){
+                        var bullet = document.createElement("p");
+                            bullet.style.left = char.offsetLeft + (char.offsetWidth / 2) + "px";
+                            document.body.append(bullet);
+                                setTimeout(() => {
+                                    bullet.remove();
+                                },500);
+        
+
+                                //Collision Detection Of Bullets And Scoring
+                                setInterval(function() { 
+
+
+                                        var elem = document.getElementsByTagName("img");
+                                        for (var x = 0; x < elem.length; x++) {
+                                        
+                                        var ow = bullet.offsetWidth;
+                                        var oh = bullet.offsetHeight;
+                                        var ot = bullet.offsetTop;
+                                        var ol = bullet.offsetLeft;
+                                        
+                                            var o2w = elem[x].offsetWidth;
+                                            var o2h = elem[x].offsetHeight;
+                                            var o2t = elem[x].offsetTop;
+                                            var o2l = elem[x].offsetLeft;
+                                        
+                                            if ((ol + ow) > (o2l) &&
+                                            (ol) < (o2w + o2l) &&
+                                            (ot) < (o2t + o2h) &&
+                                            (ot+ oh) > (o2t)){
+                                                elem[x].remove();
+                                                bullet.remove();
+                                                score = score + 10;
+                                                document.getElementById("score-board").innerHTML = score;
+                                            }
+                                        }
+                                },1);
+
+                                            //Collision Detection Of Block 1
+                                            setInterval(() => { 
+                                                
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+                                                
+                                                    var o2w = block1.offsetWidth;
+                                                    var o2h = block1.offsetHeight;
+                                                    var o2t = block1.offsetTop;
+                                                    var o2l = block1.offsetLeft;
+                                                
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 2
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block2.offsetWidth;
+                                                    var o2h = block2.offsetHeight;
+                                                    var o2t = block2.offsetTop;
+                                                    var o2l = block2.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 3
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block3.offsetWidth;
+                                                    var o2h = block3.offsetHeight;
+                                                    var o2t = block3.offsetTop;
+                                                    var o2l = block3.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 4
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block4.offsetWidth;
+                                                    var o2h = block4.offsetHeight;
+                                                    var o2t = block4.offsetTop;
+                                                    var o2l = block4.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+                    }
+                        
+            }
+
+
+
+    //Spaceship Controls
+    document.addEventListener("keydown",(e) => {
+            charKeyHandler[e.key] = true;
+    });
+    document.addEventListener("keyup",(e) => {
+            charKeyHandler[e.key] = false;
+            shoot(e);
+    });
+
+    function keyUpdate() {
+        if(charKeyHandler["ArrowLeft"] && char.offsetLeft > 5){
+            moveLeft();
+        }
+        if(charKeyHandler["ArrowRight"] && char.offsetLeft + char.offsetWidth < 805){
+            moveRight();
+        }
+    }
+
+    setInterval(keyUpdate,1);
+
+    setInterval(stopGame,1);
+
+    setInterval(checkGameOver,1);
+                   
+    //Check Game Over
+    function checkGameOver() {
+        if(score == 360){
+            document.getElementById("modal-2").style.visibility = "visible";
+            document.getElementById("score-board-2").innerHTML = score;
+        }
+    }
+
+});
+
+
+    //Stop Gameplay When Game Has Ended
+    function stopGame() {
+        if(document.getElementById("modal").style.visibility == "visible"){
+            var elem = document.getElementsByTagName("img");
+            for (var i = 0; i < elem.length; i++) {
+                elem[i].style.visibility = "hidden";
+                elem[i].remove();
+            }
+        }
+    }
+
+
+    document.getElementById("start-2").addEventListener("click", () => {
+    document.getElementById("modal-start").remove();
+        //Declarations
+        const modal = document.getElementById("modal");
+        
+        const block1 = document.getElementById("block-one");
+        const block2 = document.getElementById("block-two");
+        const block3 = document.getElementById("block-three");
+        const block4 = document.getElementById("block-four");
+        
+        let score = 0;
+    
+        const char = document.getElementById("character");
+        var moveBy = 385;
+        var charKeyHandler = {
+            "ArrowLeft": false,
+            "ArrowRight": false,
+        };
+        var BackAndForth = {
+            "MoveOverLeft": false,
+            "MoveOverRight": false,
+        };
+    
+        var enemies = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+        var enemies2 = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+        var enemies3 = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+        var enemies4 = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+    
+        var enemyLeft = -60;
+        var enemy2Left = -60;
+        var enemy3Left = -60;
+        var enemy4Left = -60;
+    
+        var enemyTop = 20;
+        var enemyTop2 = 60;
+        var enemyTop3 = 100;
+        var enemyTop4 = 140;
+    
+    
+    
+        //Create Enemies
+        function createEnemies(){
+            for(var row=0;row<9;row++){
+                    if(enemies[row] === 0){
+                        var enemy = document.createElement("img");
+                        enemy.src = "alien.gif";
+                        enemyLeft = enemyLeft + 60;
+                        enemy.style.left = enemyLeft + "px";
+                        enemy.style.top = enemyTop + "px";
+                        document.body.append(enemy);
+                    }
+            }
+            for(var row2=0;row2<9;row2++){
+                    if(enemies2[row2] === 0){
+                        var enemy2 = document.createElement("img");
+                        enemy2.src = "alien.gif";
+                        enemy2Left = enemy2Left + 60;
+                        enemy2.style.left = enemy2Left + "px";
+                        enemy2.style.top = enemyTop2 + "px";
+                        document.body.append(enemy2);
+                    }
+            }
+            for(var row3=0;row3<9;row3++){
+                    if(enemies3[row3] === 0){
+                        var enemy3 = document.createElement("img");
+                        enemy3.src = "alien.gif";
+                        enemy3Left = enemy3Left + 60;
+                        enemy3.style.left = enemy3Left + "px";
+                        enemy3.style.top = enemyTop3 + "px";
+                        document.body.append(enemy3);
+                    }
+            }
+            for(var row4=0;row4<9;row4++){
+                    if(enemies4[row4] === 0){
+                        var enemy4 = document.createElement("img");
+                        enemy4.src = "alien.gif";
+                        enemy4Left = enemy4Left + 60;
+                        enemy4.style.left = enemy4Left + "px";
+                        enemy4.style.top = enemyTop4 + "px";
+                        document.body.append(enemy4);
+                        
+                    }
+            }
+        }
+    
+        createEnemies();
+    
+    
+    
+    
+        //Move Enemies Down
+        var moveEnemiesDown = setInterval(() => {
+            var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.top = elem[i].offsetTop + 30 + "px";
+                    if(elem[i].offsetTop + elem[i].offsetHeight > 280) {
+                        clearInterval(moveEnemiesDown);
+                        modal.style.visibility = "visible";
+                    }
+                }
+        }, 3000);
+    
+    
+    
+    
+    //Move Enemies Back And Forth
+    function enemyMoveLeft(){
+            var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.left = elem[i].offsetLeft - 3 + "px";
+                
+                }
+        
+    }
+    
+    function enemyMoveRight(){
+            var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.left = elem[i].offsetLeft + 3 + "px";
+    
+                }
+        
+    }
+    
+    
+    
+    function move() {
+        var elem = document.getElementsByTagName("img");
+        
+        for (var i = 0; i < elem.length; i++) {
+        
+    
+                if(elem[i].offsetLeft < 10){
+                    BackAndForth["MoveOverRight"] = true;
+                    BackAndForth["MoveOverLeft"] = false;
+                }
+                if((elem[i].offsetLeft + elem[i].offsetWidth) > 800){
+                    BackAndForth["MoveOverRight"] = false;
+                    BackAndForth["MoveOverLeft"] = true;
+                }
+        }
+    }
+    setInterval(move,50);
+    
+    
+    
+                        
+    
+    setInterval(() => {
+        if(BackAndForth["MoveOverRight"]){
+            enemyMoveRight();
+        }
+    
+        if(BackAndForth["MoveOverLeft"]){
+            enemyMoveLeft();
+        }
+    },20); 
+    
+    
+    
+    
+    
+            //Move Spaceship Back And Forth 
+                //Shooting
+                function moveLeft() {
+                    moveBy = moveBy - 2;
+                    char.style.left = moveBy + "px";
+                }
+    
+                function moveRight() {
+                        moveBy = moveBy + 2;
+                        char.style.left = moveBy + "px";  
+                }
+    
+                function shoot(e) {
+                        if(e.key == " "){
+                            var bullet = document.createElement("p");
+                                bullet.style.left = char.offsetLeft + (char.offsetWidth / 2) + "px";
+                                document.body.append(bullet);
+                                    setTimeout(() => {
+                                        bullet.remove();
+                                    },500);
+            
+    
+                                    //Collision Detection Of Bullets And Scoring
+                                    setInterval(function() { 
+    
+    
+                                            var elem = document.getElementsByTagName("img");
+                                            for (var x = 0; x < elem.length; x++) {
+                                            
+                                            var ow = bullet.offsetWidth;
+                                            var oh = bullet.offsetHeight;
+                                            var ot = bullet.offsetTop;
+                                            var ol = bullet.offsetLeft;
+                                            
+                                                var o2w = elem[x].offsetWidth;
+                                                var o2h = elem[x].offsetHeight;
+                                                var o2t = elem[x].offsetTop;
+                                                var o2l = elem[x].offsetLeft;
+                                            
+                                                if ((ol + ow) > (o2l) &&
+                                                (ol) < (o2w + o2l) &&
+                                                (ot) < (o2t + o2h) &&
+                                                (ot+ oh) > (o2t)){
+                                                    elem[x].remove();
+                                                    bullet.remove();
+                                                    score = score + 10;
+                                                    document.getElementById("score-board").innerHTML = score;
+                                                }
+                                            }
+                                    },1);
+
+                                    
+                                            //Collision Detection Of Block 1
+                                            setInterval(() => { 
+                                                
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+                                                
+                                                    var o2w = block1.offsetWidth;
+                                                    var o2h = block1.offsetHeight;
+                                                    var o2t = block1.offsetTop;
+                                                    var o2l = block1.offsetLeft;
+                                                
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 2
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block2.offsetWidth;
+                                                    var o2h = block2.offsetHeight;
+                                                    var o2t = block2.offsetTop;
+                                                    var o2l = block2.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 3
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block3.offsetWidth;
+                                                    var o2h = block3.offsetHeight;
+                                                    var o2t = block3.offsetTop;
+                                                    var o2l = block3.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 4
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block4.offsetWidth;
+                                                    var o2h = block4.offsetHeight;
+                                                    var o2t = block4.offsetTop;
+                                                    var o2l = block4.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+                        }
+                            
+                }
+    
+    
+        //Spaceship Controls
+        document.addEventListener("keydown",(e) => {
+                charKeyHandler[e.key] = true;
+        });
+        document.addEventListener("keyup",(e) => {
+                charKeyHandler[e.key] = false;
+                shoot(e);
+        });
+    
+        function keyUpdate() {
+            if(charKeyHandler["ArrowLeft"] && char.offsetLeft > 5){
+                moveLeft();
+            }
+            if(charKeyHandler["ArrowRight"] && char.offsetLeft + char.offsetWidth < 805){
+                moveRight();
+            }
+        }
+    
+        setInterval(keyUpdate,1);
+    
+        setInterval(stopGame,1);
+    
+        setInterval(checkGameOver,1);
+                       
+        //Check Game Over
+        function checkGameOver() {
+            if(score == 360){
+                document.getElementById("modal-2").style.visibility = "visible";
+                document.getElementById("score-board-2").innerHTML = score;
+            }
+        }
+    
+    });
+    
+    
+        //Stop Gameplay When Game Has Ended
+        function stopGame() {
+            if(document.getElementById("modal").style.visibility == "visible"){
+                var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.visibility = "hidden";
+                    elem[i].remove();
+                }
+            }
+        }
+
+
+        document.getElementById("start-3").addEventListener("click", () => {
+    document.getElementById("modal-start").remove();
+        //Declarations
+        const modal = document.getElementById("modal");
+        
+        const block1 = document.getElementById("block-one");
+        const block2 = document.getElementById("block-two");
+        const block3 = document.getElementById("block-three");
+        const block4 = document.getElementById("block-four");
+
+        let score = 0;
+    
+        const char = document.getElementById("character");
+        var moveBy = 385;
+        var charKeyHandler = {
+            "ArrowLeft": false,
+            "ArrowRight": false,
+        };
+        var BackAndForth = {
+            "MoveOverLeft": false,
+            "MoveOverRight": false,
+        };
+    
+        var enemies = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+        var enemies2 = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+        var enemies3 = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+        var enemies4 = [
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ];
+    
+        var enemyLeft = -60;
+        var enemy2Left = -60;
+        var enemy3Left = -60;
+        var enemy4Left = -60;
+    
+        var enemyTop = 20;
+        var enemyTop2 = 60;
+        var enemyTop3 = 100;
+        var enemyTop4 = 140;
+    
+    
+    
+        //Create Enemies
+        function createEnemies(){
+            for(var row=0;row<9;row++){
+                    if(enemies[row] === 0){
+                        var enemy = document.createElement("img");
+                        enemy.src = "alien.gif";
+                        enemyLeft = enemyLeft + 60;
+                        enemy.style.left = enemyLeft + "px";
+                        enemy.style.top = enemyTop + "px";
+                        document.body.append(enemy);
+                    }
+            }
+            for(var row2=0;row2<9;row2++){
+                    if(enemies2[row2] === 0){
+                        var enemy2 = document.createElement("img");
+                        enemy2.src = "alien.gif";
+                        enemy2Left = enemy2Left + 60;
+                        enemy2.style.left = enemy2Left + "px";
+                        enemy2.style.top = enemyTop2 + "px";
+                        document.body.append(enemy2);
+                    }
+            }
+            for(var row3=0;row3<9;row3++){
+                    if(enemies3[row3] === 0){
+                        var enemy3 = document.createElement("img");
+                        enemy3.src = "alien.gif";
+                        enemy3Left = enemy3Left + 60;
+                        enemy3.style.left = enemy3Left + "px";
+                        enemy3.style.top = enemyTop3 + "px";
+                        document.body.append(enemy3);
+                    }
+            }
+            for(var row4=0;row4<9;row4++){
+                    if(enemies4[row4] === 0){
+                        var enemy4 = document.createElement("img");
+                        enemy4.src = "alien.gif";
+                        enemy4Left = enemy4Left + 60;
+                        enemy4.style.left = enemy4Left + "px";
+                        enemy4.style.top = enemyTop4 + "px";
+                        document.body.append(enemy4);
+                        
+                    }
+            }
+        }
+    
+        createEnemies();
+    
+    
+    
+    
+        //Move Enemies Down
+        var moveEnemiesDown = setInterval(() => {
+            var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.top = elem[i].offsetTop + 30 + "px";
+                    if(elem[i].offsetTop + elem[i].offsetHeight > 280) {
+                        clearInterval(moveEnemiesDown);
+                        modal.style.visibility = "visible";
+                    }
+                }
+        }, 2000);
+    
+    
+    
+    
+    //Move Enemies Back And Forth
+    function enemyMoveLeft(){
+            var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.left = elem[i].offsetLeft - 5 + "px";
+                
+                }
+        
+    }
+    
+    function enemyMoveRight(){
+            var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.left = elem[i].offsetLeft + 5 + "px";
+    
+                }
+        
+    }
+    
+    
+    
+    function move() {
+        var elem = document.getElementsByTagName("img");
+        
+        for (var i = 0; i < elem.length; i++) {
+        
+    
+                if(elem[i].offsetLeft < 10){
+                    BackAndForth["MoveOverRight"] = true;
+                    BackAndForth["MoveOverLeft"] = false;
+                }
+                if((elem[i].offsetLeft + elem[i].offsetWidth) > 800){
+                    BackAndForth["MoveOverRight"] = false;
+                    BackAndForth["MoveOverLeft"] = true;
+                }
+        }
+    }
+    setInterval(move,50);
+    
+    
+    
+                        
+    
+    setInterval(() => {
+        if(BackAndForth["MoveOverRight"]){
+            enemyMoveRight();
+        }
+    
+        if(BackAndForth["MoveOverLeft"]){
+            enemyMoveLeft();
+        }
+    },20); 
+    
+    
+    
+    
+    
+            //Move Spaceship Back And Forth 
+                //Shooting
+                function moveLeft() {
+                    moveBy = moveBy - 2;
+                    char.style.left = moveBy + "px";
+                }
+    
+                function moveRight() {
+                        moveBy = moveBy + 2;
+                        char.style.left = moveBy + "px";  
+                }
+    
+                function shoot(e) {
+                        if(e.key == " "){
+                            var bullet = document.createElement("p");
+                                bullet.style.left = char.offsetLeft + (char.offsetWidth / 2) + "px";
+                                document.body.append(bullet);
+                                    setTimeout(() => {
+                                        bullet.remove();
+                                    },500);
+            
+    
+                                    //Collision Detection Of Bullets And Scoring
+                                    setInterval(function() { 
+    
+    
+                                            var elem = document.getElementsByTagName("img");
+                                            for (var x = 0; x < elem.length; x++) {
+                                            
+                                            var ow = bullet.offsetWidth;
+                                            var oh = bullet.offsetHeight;
+                                            var ot = bullet.offsetTop;
+                                            var ol = bullet.offsetLeft;
+                                            
+                                                var o2w = elem[x].offsetWidth;
+                                                var o2h = elem[x].offsetHeight;
+                                                var o2t = elem[x].offsetTop;
+                                                var o2l = elem[x].offsetLeft;
+                                            
+                                                if ((ol + ow) > (o2l) &&
+                                                (ol) < (o2w + o2l) &&
+                                                (ot) < (o2t + o2h) &&
+                                                (ot+ oh) > (o2t)){
+                                                    elem[x].remove();
+                                                    bullet.remove();
+                                                    score = score + 10;
+                                                    document.getElementById("score-board").innerHTML = score;
+                                                }
+                                            }
+                                    },1);
+
+                                    
+                                            //Collision Detection Of Block 1
+                                            setInterval(() => { 
+                                                
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+                                                
+                                                    var o2w = block1.offsetWidth;
+                                                    var o2h = block1.offsetHeight;
+                                                    var o2t = block1.offsetTop;
+                                                    var o2l = block1.offsetLeft;
+                                                
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 2
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block2.offsetWidth;
+                                                    var o2h = block2.offsetHeight;
+                                                    var o2t = block2.offsetTop;
+                                                    var o2l = block2.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 3
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block3.offsetWidth;
+                                                    var o2h = block3.offsetHeight;
+                                                    var o2t = block3.offsetTop;
+                                                    var o2l = block3.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+
+                                            //Collision Detection Of Block 4
+                                            setInterval(() => { 
+
+                                                var ow = bullet.offsetWidth;
+                                                var oh = bullet.offsetHeight;
+                                                var ot = bullet.offsetTop;
+                                                var ol = bullet.offsetLeft;
+
+                                                    var o2w = block4.offsetWidth;
+                                                    var o2h = block4.offsetHeight;
+                                                    var o2t = block4.offsetTop;
+                                                    var o2l = block4.offsetLeft;
+
+                                                    if ((ol + ow) > (o2l) &&
+                                                    (ol) < (o2w + o2l) &&
+                                                    (ot) < (o2t + o2h) &&
+                                                    (ot+ oh) > (o2t)){
+                                                        bullet.remove();
+                                                    }
+                                                
+                                            },1);
+                        }
+                            
+                }
+    
+    
+        //Spaceship Controls
+        document.addEventListener("keydown",(e) => {
+                charKeyHandler[e.key] = true;
+        });
+        document.addEventListener("keyup",(e) => {
+                charKeyHandler[e.key] = false;
+                shoot(e);
+        });
+    
+        function keyUpdate() {
+            if(charKeyHandler["ArrowLeft"] && char.offsetLeft > 5){
+                moveLeft();
+            }
+            if(charKeyHandler["ArrowRight"] && char.offsetLeft + char.offsetWidth < 805){
+                moveRight();
+            }
+        }
+    
+        setInterval(keyUpdate,1);
+    
+        setInterval(stopGame,1);
+    
+        setInterval(checkGameOver,1);
+                       
+        //Check Game Over
+        function checkGameOver() {
+            if(score == 360){
+                document.getElementById("modal-2").style.visibility = "visible";
+                document.getElementById("score-board-2").innerHTML = score;
+            }
+        }
+    
+    });
+    
+    
+        //Stop Gameplay When Game Has Ended
+        function stopGame() {
+            if(document.getElementById("modal").style.visibility == "visible"){
+                var elem = document.getElementsByTagName("img");
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].style.visibility = "hidden";
+                    elem[i].remove();
+                }
+            }
+        }
+    
+
+
+//Play Again
+    function play() {
+        window.location.reload();
+    }
+
+
+     
+msg = document.title;
+msg = msg + "-";
+position = 0;
+
+function scrolltitle() {
+  document.title = msg.substring(position, msg.length) + msg.substring(0, position);
+  position++;
+  if(position > msg.length) position = 0;
+  window.setTimeout(scrolltitle, 60);
+}
+scrolltitle();
+
+    </script>
+</body>
+</html>

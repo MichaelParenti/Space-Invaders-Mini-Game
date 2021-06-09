@@ -171,12 +171,12 @@ document.getElementById("start-3").addEventListener("click", () => {
             //Move Spaceship Back And Forth 
                 //Shooting
                 function moveLeft() {
-                    moveBy = moveBy - 2;
+                    moveBy = moveBy - 5;
                     char.style.left = moveBy + "px";
                 }
     
                 function moveRight() {
-                        moveBy = moveBy + 2;
+                        moveBy = moveBy + 5;
                         char.style.left = moveBy + "px";  
                 }
     

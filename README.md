@@ -4,4 +4,4 @@ The objective of "Space Invaders", which is one of the earliest video games rele
 Note: This is just a simplified version of the actual game.
 
 You can play this game at the following link:
-https://m-coder-3920.github.io/Space-Invaders-Clone/index.html
+https://m-coder-3920.github.io/Space-Invaders-Mini-Game/index.html
